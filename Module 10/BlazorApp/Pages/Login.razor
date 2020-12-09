@@ -1,0 +1,54 @@
+@page "/Login"
+@using BlazorApp.Data
+@inject LoginService MyLogin
+@inject SqliteService db
+@inject NavigationManager NavigationManager
+
+
+@if (@status==1)
+{
+    <p>Welcome @member.Name</p>
+   // <button @onclick="logout">Logout</button>
+}
+else{
+    <p> Welcome,please login</p>
+    <label for="fname">Username:</label>
+    <input type="text" @bind="@username" id="username" name="username"><br><br>
+    <label for="lname">Password:</label>
+    <input type="password" @bind="@password" id="password" name="password"><br><br>
+    <p>@message</p>
+    <button class="btn btn-primary" @onclick="login">Login</button>
+}
+
+@code{
+    private string username;
+    private string password;
+    private string message;
+    private int status { get; set;} = 0;   // 1 means login; 0 means not login
+
+    private MemberData member;
+
+    async Task login()    //Take is a build in class, to perform asynchronous operations
+    {
+        @* status = "login successful!!" *@
+        //MyLogin.setlogin(1);
+        if (await MyLogin.LoginVerify(this.username, this.password)) {
+        status = MyLogin.getlogin();
+        member = MyLogin.GetLoginUserInfo();
+        }else{
+            message = "Username or Password is incorrect";
+        }
+    }
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    db.connectedDB();
+    //    db.createTable();
+    //    db.createNewMember("Pratik","cityu");
+    //    this.status = await MyLogin.GetLoginAsync();
+    // }
+
+    //void logout(){
+    //    MyLogin.setlogin(0);
+    //    status= MyLogin.getlogin();
+    //}
+}

@@ -1,0 +1,24 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<Counter IncrementAmount="-10" />
+
+<p>
+    <input @bind="onHitValue" /> On Keyboard Hit Value: @onHitValue
+</p>
+
+
+<p>
+    <input @bind="CurrentValue" @bind:event="oninput"/> Real Time Value: @CurrentValue
+</p>
+@code {
+
+   
+    private string CurrentValue { get; set;}
+
+    private string onHitValue { get; set;}
+    
+}
